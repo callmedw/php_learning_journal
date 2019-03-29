@@ -15,5 +15,5 @@
     }
   ?>
   <input type="submit" value="Publish Entry" class="button">
-  <a href="#" class="button button-secondary">Cancel</a>
+  <a href="javascript:history.back()" class="button button-secondary">Cancel</a>
 </form>
