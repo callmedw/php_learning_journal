@@ -32,17 +32,38 @@ function add_journal_entry($title, $date, $time_spent, $learned, $resources, $en
 
 // get (read) journal entry //
 function get_journal_entry($entry_id){
-    include 'connection.php';
+  include 'connection.php';
 
-    $sql = 'SELECT * FROM entries WHERE id = ?';
+  $sql = 'SELECT * FROM entries WHERE id = ?';
 
-    try {
-        $results = $db->prepare($sql);
-        $results->bindValue(1, $entry_id, PDO::PARAM_INT);
-        $results->execute();
-    } catch (Exception $e) {
-        echo $e->getMessage();
-        return false;
-    }
-    return $results->fetch();
+  try {
+    $results = $db->prepare($sql);
+    $results->bindValue(1, $entry_id, PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e) {
+    echo $e->getMessage();
+    return false;
+  }
+  return $results->fetch();
+}
+
+// delete journal entry //
+function delete_journal_entry($entry_id){
+  include 'connection.php';
+
+  $sql = 'DELETE FROM entries WHERE id = ?';
+
+  try {
+    $results = $db->prepare($sql);
+    $results->bindValue(1, $entry_id, PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e) {
+    echo $e->getMessage();
+    return false;
+  }
+  if ($results->rowCount() > 0 ) {
+    return true;
+  } else {
+    return false;
+  }
 }
