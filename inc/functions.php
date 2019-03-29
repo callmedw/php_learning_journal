@@ -7,7 +7,7 @@ function add_journal_entry($title, $date, $time_spent, $learned, $resources, $en
   include 'connection.php';
 
   if ($entry_id) {
-    $sql =  'UPDATE entries SET title = ?, date = ?, time_spent = ?, learned = ?, resources = ? WHERE entry_id = ?';
+    $sql =  'UPDATE entries SET title = ?, date = ?, time_spent = ?, learned = ?, resources = ? WHERE id = ?';
   } else {
     $sql = 'INSERT INTO entries(title, date, time_spent, learned, resources) VALUES(?, ?, ?, ?, ?)';
   }
@@ -28,4 +28,21 @@ function add_journal_entry($title, $date, $time_spent, $learned, $resources, $en
     return false;
   }
   return true;
+}
+
+// get (read) journal entry //
+function get_journal_entry($entry_id){
+    include 'connection.php';
+
+    $sql = 'SELECT * FROM entries WHERE id = ?';
+
+    try {
+        $results = $db->prepare($sql);
+        $results->bindValue(1, $entry_id, PDO::PARAM_INT);
+        $results->execute();
+    } catch (Exception $e) {
+        echo $e->getMessage();
+        return false;
+    }
+    return $results->fetch();
 }
