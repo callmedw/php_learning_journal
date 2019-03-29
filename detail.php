@@ -7,9 +7,11 @@ if (isset($_GET['id'])) {
 
 if (isset($_POST['delete'])) {
   if (delete_journal_entry(filter_input(INPUT_POST, 'delete', FILTER_SANITIZE_NUMBER_INT))) {
+    $info_message = "Entry Deleted!";
     header("Location: index.php?msg=Entry+Deleted");
     exit;
   } else {
+    $error_message = "Entry could not be deleted!";
     header("Location: detail.php?id=$entry_id?msg=Entry+Deletion+Unsuccesful");
     exit;
   }
@@ -48,7 +50,7 @@ include "inc/header.php";
     </div>
   </div>
   <div class="edit">
-    <p><a href="edit.php">Edit Entry</a></p>
+    <p><a href="edit.php?id=<?php echo $entry_id?>">Edit Entry</a></p>
     <form method='post' onsubmit=\"return confirm('Are you sure?');\">
       <input type='hidden' value="<?php echo $entry_id; ?>" name='delete' />
       <input type='submit' class='button button-danger' value='Delete Entry' />
