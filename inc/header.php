@@ -13,10 +13,6 @@
 <body>
 
   <?php
-    if (isset($_GET['msg'])) {
-      $message = trim(filter_input(INPUT_GET, 'msg', FILTER_SANITIZE_STRING));
-      echo "<p class='message'>$message</p>";
-    }
     if(isset($error_message)) {
       echo "<p class='message'>$error_message</p>";
     }
