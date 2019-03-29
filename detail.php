@@ -5,6 +5,16 @@ if (isset($_GET['id'])) {
   list($entry_id, $title, $date, $time_spent, $learned, $resources) = get_journal_entry(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
 }
 
+if (isset($_POST['delete'])) {
+  if (delete_journal_entry(filter_input(INPUT_POST, 'delete', FILTER_SANITIZE_NUMBER_INT))) {
+    header("Location: index.php?msg=Entry+Deleted");
+    exit;
+  } else {
+    header("Location: detail.php?id=$entry_id?msg=Entry+Deletion+Unsuccesful");
+    exit;
+  }
+}
+
 include "inc/header.php";
 ?>
 
@@ -21,7 +31,7 @@ include "inc/header.php";
     <div class="entry-list single">
       <article>
         <h1><?php echo $title ?></h1>
-        <time datetime="<?php echo $date ?>"><?php echo $date ?></time>
+        <time datetime="<?php echo $date ?>"><?php echo strftime("%B %d, %Y", strtotime($date)); ?></time>
         <div class="entry">
           <h3>Time Spent: </h3>
           <p><?php echo $time_spent ?></p>
@@ -39,6 +49,10 @@ include "inc/header.php";
   </div>
   <div class="edit">
     <p><a href="edit.php">Edit Entry</a></p>
+    <form method='post' onsubmit=\"return confirm('Are you sure?');\">
+      <input type='hidden' value="<?php echo $entry_id; ?>" name='delete' />
+      <input type='submit' class='button button-danger' value='Delete Entry' />
+    </form>
   </div>
 </section>
 <footer>
