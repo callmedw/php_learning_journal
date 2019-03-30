@@ -17,7 +17,7 @@ To pass this code review the following criteria are required:
   - [x]  What You Learned
   - [x]  Resources to Remember
 - [x] Ability to delete an entry.
-- [ ] Each section of the journal entry uses the correct CSS from the supplied file: Entry itself, Title, Date, Time Spent, What You Learned, Resources to Remember.
+- [x] Each section of the journal entry uses the correct CSS from the supplied file: Entry itself, Title, Date, Time Spent, What You Learned, Resources to Remember.
 
 Additionally the app includes:
 
