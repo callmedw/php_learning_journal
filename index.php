@@ -1,6 +1,7 @@
 <?php
-include "inc/header.php";
 require_once "inc/functions.php";
+$page_title = "My Learning Journal";
+include "inc/header.php";
 ?>
 
   <?php

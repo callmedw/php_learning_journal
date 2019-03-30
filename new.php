@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
+$page_title = "Add a New Entry";
 include "inc/header.php"
 ?>
 

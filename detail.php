@@ -20,7 +20,7 @@ if (isset($_POST['delete'])) {
     exit;
   }
 }
-
+$page_title = $title;
 include "inc/header.php";
 ?>
 
@@ -35,7 +35,7 @@ include "inc/header.php";
       <div class="tag-list">
         <?php
           foreach (get_tags_for_entry($entry_id) as $tag) {
-            echo "<a href='tag.php?tag=" .$tag['id']. "'>" .$tag['name']. "</a>  ";
+            echo "<a href='tag.php?id=" .$tag['id']. "'>" .$tag['name']. "</a>  ";
           }
         ?>
       </div>
