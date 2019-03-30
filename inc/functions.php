@@ -4,7 +4,7 @@
 ////////////////////////////
 
 // add/update journal entry
-function add_journal_entry($title, $date, $time_spent, $learned, $resources, $entry_id = NULL){
+function add_journal_entry($title, $date, $time_spent, $learned, $resources, $tags, $entry_id = NULL){
   include 'connection.php';
 
   if ($entry_id) {
@@ -28,6 +28,7 @@ function add_journal_entry($title, $date, $time_spent, $learned, $resources, $en
     echo $e->getMessage();
     return false;
   }
+  add_tag($tags);
   return true;
 }
 
@@ -84,6 +85,11 @@ function delete_journal_entry($entry_id){
 /////////////////////////////
 //      tag CRUD      //
 ////////////////////////////
+
+// add update an entries tag //
+function add_tag($tags) {
+  var_dump($tags);
+}
 
 // get (read) single tag //
 function get_tag($tag_id) {
