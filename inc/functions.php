@@ -3,7 +3,7 @@
 //      journal CRUD      //
 
 // add/update journal entry
-function add_journal_entry($title, $date, $time_spent, $learned, $resources, $entry_id = null){
+function add_journal_entry($title, $date, $time_spent, $learned, $resources, $entry_id = NULL){
   include 'connection.php';
 
   if ($entry_id) {
@@ -28,6 +28,19 @@ function add_journal_entry($title, $date, $time_spent, $learned, $resources, $en
     return false;
   }
   return true;
+}
+
+// get (read) all journal entries //
+
+function get_journal_entry_list() {
+    include 'connection.php';
+
+    try {
+        return $db->query('SELECT * FROM entries');
+    } catch (Exception $e) {
+        echo "Error!: " . $e->getMessage() . "<br />";
+        return array();
+    }
 }
 
 // get (read) journal entry //

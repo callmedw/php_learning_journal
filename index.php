@@ -1,4 +1,7 @@
-<?php include "inc/header.php" ?>
+<?php
+include "inc/header.php";
+require_once "inc/functions.php";
+?>
 
 <header>
   <div class="container">
@@ -10,23 +13,21 @@
 </header>
 <section>
   <div class="container">
+    <?php
+      if(isset($message)) {
+        echo "<p class='message'>$message</p>";
+      }
+    ?>
     <div class="entry-list">
-      <article>
-        <h2><a href="detail.php">The best day I’ve ever had</a></h2>
-        <time datetime="2016-01-31">January 31, 2016</time>
-      </article>
-      <article>
-        <h2><a href="detail_2.php">The absolute worst day I’ve ever had</a></h2>
-        <time datetime="2016-01-31">January 31, 2016</time>
-      </article>
-      <article>
-        <h2><a href="detail_3.php">That time at the mall</a></h2>
-        <time datetime="2016-01-31">January 31, 2016</time>
-      </article>
-      <article>
-        <h2><a href="detail_4.php">Dude, where’s my car?</a></h2>
-        <time datetime="2016-01-31">January 31, 2016</time>
-      </article>
+      <?php
+        foreach (get_journal_entry_list() as $entry) {
+          echo "<article>";
+          echo "<h2><a href='detail.php?id=" .$entry['id']. "'>".$entry['title']."</a></h2>";
+          echo "<time datetime=" .$entry['date']. ">" .strftime("%B %d, %Y", strtotime($entry['date'])). "</time>";
+          echo "<p>" .substr($entry['learned'], 0, 250). "... <a href='detail.php?id=" .$entry['id']. "'>more</a></p>";
+          echo "</article>";
+        }
+      ?>
     </div>
   </div>
 </section>
