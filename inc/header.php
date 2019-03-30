@@ -11,12 +11,3 @@
     <link rel="stylesheet" href="css/site.css">
   </head>
 <body>
-
-  <?php
-    if(isset($error_message)) {
-      echo "<p class='message'>$error_message</p>";
-    }
-    if(isset($info_message)) {
-      echo "<p class='message'>$info_message</p>";
-    }
-  ?>
