@@ -42,6 +42,14 @@ include "inc/header.php";
     <div class="entry-list single">
       <article>
         <h1><?php echo $title ?></h1>
+        <div class="tag-list">
+          <?php
+            foreach (get_tags_for_entry($entry_id) as $tag) {
+              echo "<a href='tag.php?tag=" .$tag['name']. "'>" .$tag['name']. "</a>";
+            }
+          ?>
+        </div>
+        <br>
         <time datetime="<?php echo $date ?>"><?php echo strftime("%B %d, %Y", strtotime($date)); ?></time>
         <div class="entry">
           <h3>Time Spent: </h3>

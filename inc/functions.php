@@ -1,5 +1,4 @@
 <?php
-
 /////////////////////////////
 //      journal CRUD      //
 ////////////////////////////
@@ -80,4 +79,28 @@ function delete_journal_entry($entry_id){
   } else {
     return false;
   }
+}
+
+/////////////////////////////
+//      tag CRUD      //
+////////////////////////////
+
+// get (read) entry tags //
+function get_tags_for_entry($entry_id) {
+  include 'connection.php';
+
+  $sql = 'SELECT tags.name
+          FROM tags
+          JOIN entry_tags ON tags.id = entry_tags.tag_id
+          WHERE entry_tags.entry_id = ?';
+
+  try {
+    $results = $db->prepare($sql);
+    $results->bindValue(1, $entry_id, PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e) {
+    echo $e->getMessage();
+    return false;
+  }
+  return $results;
 }
