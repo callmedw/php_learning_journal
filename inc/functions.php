@@ -36,7 +36,7 @@ function get_journal_entry_list() {
     include 'connection.php';
 
     try {
-        return $db->query('SELECT * FROM entries');
+        return $db->query('SELECT * FROM entries ORDER BY date DESC');
     } catch (Exception $e) {
         echo "Error!: " . $e->getMessage() . "<br />";
         return array();
