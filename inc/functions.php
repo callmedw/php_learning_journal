@@ -28,7 +28,17 @@ function add_journal_entry($title, $date, $time_spent, $learned, $resources, $ta
     echo $e->getMessage();
     return false;
   }
-  add_tag($tags);
+  if ($db->lastInsertId()) {
+    try {
+      $entry_id = $db->lastInsertId();
+      add_tags($tags);
+      $tag_array = get_tag_ids($tags);
+      populate_entry_tags_table($tag_array, $entry_id);
+    } catch (Exception $e) {
+      echo $e->getMessage();
+      return false;
+    }
+  }
   return true;
 }
 
@@ -86,9 +96,78 @@ function delete_journal_entry($entry_id){
 //      tag CRUD      //
 ////////////////////////////
 
-// add update an entries tag //
-function add_tag($tags) {
-  var_dump($tags);
+// add entries tags //
+function add_tags($tags) {
+  include 'connection.php';
+  $tag_array =  explode(',', $tags);
+  $tag_ids = [];
+  $sql = "INSERT INTO tags (name) VALUES (?)";
+
+  try {
+    $db->beginTransaction();
+    $results = $db->prepare($sql);
+    foreach ($tag_array as $tag) {
+      $results->bindValue(1, trim($tag), PDO::PARAM_STR);
+      if ($results->execute()) {
+        $tag_ids[] = $db->lastInsertId();
+      }
+    }
+    $db->commit();
+  } catch (Exception $e) {
+    $db->rollback();
+    echo $e->getMessage();
+    return false;
+  }
+  return true;
+}
+
+// return an entries tag ids //
+function get_tag_ids($tags) {
+  include 'connection.php';
+  $tag_array =  explode(',', $tags);
+  $tag_ids = [];
+  $sql = "SELECT id FROM tags WHERE name LIKE LOWER(?)";
+
+  try {
+    $db->beginTransaction();
+    $results = $db->prepare($sql);
+    foreach ($tag_array as $tag) {
+      $results->bindValue(1, trim($tag), PDO::PARAM_STR);
+      if ($results->execute()) {
+        $tag_ids[] = $results->fetch();
+      }
+    }
+    $db->commit();
+  } catch (Exception $e) {
+    $db->rollback();
+    echo $e->getMessage();
+    return false;
+  }
+  return $tag_ids;
+}
+
+function populate_entry_tags_table($tag_array, $entry_id) {
+  error_log(print_r($tag_array, TRUE));
+  error_log(print_r($entry_id, TRUE));
+  include 'connection.php';
+  $sql = "INSERT INTO entry_tags (entry_id, tag_id) VALUES (?, ?)";
+
+  try {
+    $db->beginTransaction();
+    $results = $db->prepare($sql);
+    foreach ($tag_array as $tag_id) {
+        error_log(print_r($tag_id, TRUE));
+      $results->bindValue(1, $entry_id, PDO::PARAM_INT);
+      $results->bindValue(2, $tag_id['id'], PDO::PARAM_INT);
+      $results->execute();
+    }
+    $db->commit();
+  } catch (Exception $e) {
+    $db->rollback();
+    echo $e->getMessage();
+    return false;
+  }
+  return true;
 }
 
 // get (read) single tag //
@@ -107,7 +186,6 @@ function get_tag($tag_id) {
   }
   return $results->fetch();
 }
-
 
 // get (read) entry tags //
 function get_tags_for_entry($entry_id) {

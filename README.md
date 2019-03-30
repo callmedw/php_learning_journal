@@ -25,7 +25,7 @@ Additionally the app includes:
 - [x] Journal entries show tags.
 - [x] Details pages shows tags.
 - [ ] Add/Edit page password protected
-  - [ ] Add/Edit includes tags
+- [x] Add/Edit includes tags
 
 ## Known Bugs
 
