@@ -10,14 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $resources = trim(filter_input(INPUT_POST, 'resources', FILTER_SANITIZE_STRING));
 
   if (empty($title) || empty($date) || empty($time_spent) || empty($learned) || empty($resources)) {
-    $error_message = 'Please fill in all fields.';
+    $message = 'Please fill in all fields.';
   } else {
     if (add_journal_entry($title, $date, $time_spent, $learned, $resources, $entry_id)) {
-      $info_message = "Success! Your entry has been added.";
+      $message = "Success! Your entry has been added.";
       header('location:index.php');
       exit;
     } else {
-      $error_message = 'This entry was not successfully added.';
+      $message = 'This entry was not successfully added.';
       header('location:new.php');
     }
   }

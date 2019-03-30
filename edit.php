@@ -14,14 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $resources = trim(filter_input(INPUT_POST, 'resources', FILTER_SANITIZE_STRING));
 
   if (empty($title) || empty($date) || empty($time_spent) || empty($learned) || empty($resources)) {
-    $error_message = 'Please fill in all fields.';
+    $message = 'Please fill in all fields.';
   } else {
     if (add_journal_entry($title, $date, $time_spent, $learned, $resources, $entry_id)) {
-      $info_message = "Success! Entry Updated.";
+      $message = "Success! Entry Updated.";
       header("location:detail.php?id=$entry_id");
       exit;
     } else {
-      $error_message = 'Whoops! Something went wrong and this entry did not update.';
+      $message = 'Whoops! Something went wrong and this entry did not update.';
     }
   }
 }

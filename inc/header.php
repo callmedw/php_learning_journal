@@ -1,3 +1,9 @@
+<?php
+if (isset($_GET['msg'])) {
+  $message = trim(filter_input(INPUT_GET, 'msg', FILTER_SANITIZE_STRING));
+}
+?>
+
 <!DOCTYPE html>
 <html>
   <head>

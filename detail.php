@@ -1,18 +1,22 @@
 <?php
 require_once "inc/functions.php";
 
+if (isset($_GET['msg'])) {
+  $message = trim(filter_input(INPUT_GET, 'msg', FILTER_SANITIZE_STRING));
+}
+
 if (isset($_GET['id'])) {
   list($entry_id, $title, $date, $time_spent, $learned, $resources) = get_journal_entry(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
 }
 
 if (isset($_POST['delete'])) {
   if (delete_journal_entry(filter_input(INPUT_POST, 'delete', FILTER_SANITIZE_NUMBER_INT))) {
-    $info_message = "Entry Deleted!";
+    $message = "Entry Deleted!";
     header("Location: index.php?msg=Entry+Deleted");
     exit;
   } else {
-    $error_message = "Entry could not be deleted!";
-    header("Location: detail.php?id=$entry_id?msg=Entry+Deletion+Unsuccesful");
+    $message = "Entry could not be deleted!";
+    header("Location: detail.php?id=$entry_id&msg=Entry+Deletion+Unsuccesful");
     exit;
   }
 }
@@ -30,6 +34,11 @@ include "inc/header.php";
 </header>
 <section>
   <div class="container">
+    <?php
+      if(isset($message)) {
+        echo "<p class='message'>$message</p>";
+      }
+    ?>
     <div class="entry-list single">
       <article>
         <h1><?php echo $title ?></h1>

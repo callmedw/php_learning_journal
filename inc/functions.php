@@ -1,5 +1,13 @@
 <?php
+
+///////////////////////////////
+//      site functions      //
+//////////////////////////////
+
+
+/////////////////////////////
 //      journal CRUD      //
+////////////////////////////
 
 // add/update journal entry
 function add_journal_entry($title, $date, $time_spent, $learned, $resources, $entry_id = NULL){
