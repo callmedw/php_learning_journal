@@ -104,3 +104,24 @@ function get_tags_for_entry($entry_id) {
   }
   return $results;
 }
+
+// get (read) all entries for tag //
+function get_entries_for_tag($tag_id) {
+  include 'connection.php';
+
+  $sql = 'SELECT entries.title, entries.id, entries.date
+          FROM entries
+          JOIN entry_tags ON entries.id = entry_tags.entry_id
+          WHERE entry_tags.tag_id = ?
+          ORDER BY entries.date DESC';
+
+  try {
+    $results = $db->prepare($sql);
+    $results->bindValue(1, $tag_id, PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e) {
+    echo $e->getMessage();
+    return false;
+  }
+  return $results;
+}
