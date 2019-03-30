@@ -73,6 +73,9 @@ function get_journal_entry($entry_id){
 
 // delete journal entry //
 function delete_journal_entry($entry_id){
+  var_dump($entry_id);
+  echo "<h1> YOOOOOOOOOOO </h1>"; 
+  error_log(print_r($entry_id, TRUE));
   include 'connection.php';
 
   $sql = 'DELETE FROM entries WHERE id = ?';
@@ -147,8 +150,6 @@ function get_tag_ids($tags) {
 }
 
 function populate_entry_tags_table($tag_array, $entry_id) {
-  error_log(print_r($tag_array, TRUE));
-  error_log(print_r($entry_id, TRUE));
   include 'connection.php';
   $sql = "INSERT INTO entry_tags (entry_id, tag_id) VALUES (?, ?)";
 
@@ -156,7 +157,6 @@ function populate_entry_tags_table($tag_array, $entry_id) {
     $db->beginTransaction();
     $results = $db->prepare($sql);
     foreach ($tag_array as $tag_id) {
-        error_log(print_r($tag_id, TRUE));
       $results->bindValue(1, $entry_id, PDO::PARAM_INT);
       $results->bindValue(2, $tag_id['id'], PDO::PARAM_INT);
       $results->execute();

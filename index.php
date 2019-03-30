@@ -1,5 +1,22 @@
 <?php
 require_once "inc/functions.php";
+
+if (isset($_GET['msg'])) {
+  $message = trim(filter_input(INPUT_GET, 'msg', FILTER_SANITIZE_STRING));
+}
+
+if (isset($_POST['delete'])) {
+  if (delete_journal_entry(filter_input(INPUT_POST, 'delete', FILTER_SANITIZE_NUMBER_INT))) {
+    $message = "Entry Deleted!";
+    header("Location: index.php?msg=Entry+Deleted");
+    exit;
+  } else {
+    $message = "Entry could not be deleted!";
+    header("Location: detail.php?id=$entry_id&msg=Entry+Deletion+Unsuccesful");
+    exit;
+  }
+}
+
 $page_title = "My Learning Journal";
 include "inc/header.php";
 ?>
