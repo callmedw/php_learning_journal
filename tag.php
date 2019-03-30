@@ -3,15 +3,17 @@ require_once "inc/functions.php";
 
 if (isset($_GET['id'])) {
   $tag_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+  $tag_name = get_tag($tag_id)['name'];
 }
 
+
+
+$page_title = $tag_name;
 include "inc/header.php";
 ?>
 
-
   <div class="entry-list">
-    <h1> All entries tagged "<?php echo $tag_id; ?>": </h1>
-    <br>
+    <h1 class="tag-header"> All entries tagged "<?php echo $tag_name; ?>": </h1>
 
     <?php
       foreach (get_entries_for_tag($tag_id) as $entry) {

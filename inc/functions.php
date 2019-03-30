@@ -38,7 +38,7 @@ function get_journal_entry_list() {
   try {
     return $db->query('SELECT * FROM entries ORDER BY date DESC');
   } catch (Exception $e) {
-    echo "Error!: " . $e->getMessage() . "<br />";
+    echo $e->getMessage();
     return array();
   }
 }
@@ -84,6 +84,24 @@ function delete_journal_entry($entry_id){
 /////////////////////////////
 //      tag CRUD      //
 ////////////////////////////
+
+// get (read) single tag //
+function get_tag($tag_id) {
+  include 'connection.php';
+
+  $sql = 'SELECT * FROM tags WHERE tags.id = ?';
+
+  try {
+    $results = $db->prepare($sql);
+    $results->bindValue(1, $tag_id, PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e) {
+    echo $e->getMessage();
+    return false;
+  }
+  return $results->fetch();
+}
+
 
 // get (read) entry tags //
 function get_tags_for_entry($entry_id) {
