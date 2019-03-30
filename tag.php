@@ -13,12 +13,14 @@ include "inc/header.php";
 ?>
 
   <div class="entry-list">
-    <h1 class="tag-header"> All entries tagged "<?php echo $tag_name; ?>": </h1>
+    <h1 class="tag-header"> All entries tagged "<?php echo $tag_name; ?>" </h1>
 
     <?php
       foreach (get_entries_for_tag($tag_id) as $entry) {
+        echo "<article>";
         echo "<h2><a href='detail.php?id=" .$entry['id']. "'>" .$entry['title']. "</a></h2></ br>";
         echo "<time datetime=".$entry['date'].">" .strftime("%B %d, %Y", strtotime($entry['date'])). "</time>";
+        echo "</article>";
       }
     ?>
   </div>

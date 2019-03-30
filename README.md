@@ -22,8 +22,8 @@ To pass this code review the following criteria are required:
 Additionally the app includes:
 
 - [ ] Prepared statements for adding and editing tags.
-- [ ] Journal entries show tags.
-- [ ] Details pages shows tags.
+- [x] Journal entries show tags.
+- [x] Details pages shows tags.
 - [ ] Add/Edit page password protected
   - [ ] Add/Edit includes tags
 

@@ -15,6 +15,11 @@ include "inc/header.php";
         echo "<article>";
         echo "<h2><a href='detail.php?id=" .$entry['id']. "'>".$entry['title']."</a></h2>";
         echo "<time datetime=" .$entry['date']. ">" .strftime("%B %d, %Y", strtotime($entry['date'])). "</time>";
+        echo "<p class='tag-list'>";
+          foreach (get_tags_for_entry($entry['id']) as $tag) {
+            echo "<a href='tag.php?id=" .$tag['id']. "'>" .$tag['name']. "</a> ";
+          }
+        echo "</p>";
         echo "<p>" .substr($entry['learned'], 0, 250). "... <a href='detail.php?id=" .$entry['id']. "'>more</a></p>";
         echo "<form method='post' onsubmit=\"return confirm('Are you sure?');\">";
         echo "<input type='hidden' value='" .$entry['id']. "' name='delete' />";

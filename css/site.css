@@ -181,6 +181,10 @@ ul li a {
 	text-transform: uppercase;
 	font-size: 18px;
 }
+.tag-header {
+	margin: 40px;
+	text-align: center;
+}
 
 
 
@@ -224,17 +228,3 @@ form textarea:hover {
 input[type=submit] {
 	margin-right: 5px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
