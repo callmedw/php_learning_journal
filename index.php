@@ -25,6 +25,10 @@ require_once "inc/functions.php";
           echo "<h2><a href='detail.php?id=" .$entry['id']. "'>".$entry['title']."</a></h2>";
           echo "<time datetime=" .$entry['date']. ">" .strftime("%B %d, %Y", strtotime($entry['date'])). "</time>";
           echo "<p>" .substr($entry['learned'], 0, 250). "... <a href='detail.php?id=" .$entry['id']. "'>more</a></p>";
+          echo "<form method='post' onsubmit=\"return confirm('Are you sure?');\">";
+          echo "<input type='hidden' value='" .$entry['id']. "' name='delete' />";
+          echo "<input type='submit' class='button button-danger' value='Delete' />";
+          echo "</form>";
           echo "</article>";
         }
       ?>
@@ -38,3 +42,8 @@ require_once "inc/functions.php";
 </footer>
 
 <?php include "inc/footer.php" ?>
+
+<form method='post' onsubmit=\"return confirm('Are you sure?');\">
+  <input type='hidden' value="<?php echo $entry_id; ?>" name='delete' />
+  <input type='submit' class='button button-danger' value='Delete Entry' />
+</form>
