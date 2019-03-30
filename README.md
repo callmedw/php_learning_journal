@@ -24,6 +24,7 @@ Additionally the app includes:
 - [x] Prepared statements for adding and editing tags.
 - [x] Journal entries show tags.
 - [x] Details pages shows tags.
+- [ ] Allow the tags to be links to a list of entries, filtered by specific tags.
 - [ ] Add/Edit page password protected
 - [x] Add/Edit includes tags
 
