@@ -6,8 +6,6 @@ if (isset($_GET['id'])) {
   $tag_name = get_tag($tag_id)['name'];
 }
 
-
-
 $page_title = $tag_name;
 include "inc/header.php";
 ?>
