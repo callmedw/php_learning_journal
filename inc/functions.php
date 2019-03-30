@@ -89,7 +89,7 @@ function delete_journal_entry($entry_id){
 function get_tags_for_entry($entry_id) {
   include 'connection.php';
 
-  $sql = 'SELECT tags.name
+  $sql = 'SELECT tags.name, tags.id
           FROM tags
           JOIN entry_tags ON tags.id = entry_tags.tag_id
           WHERE entry_tags.entry_id = ?';

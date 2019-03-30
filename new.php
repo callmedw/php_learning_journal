@@ -26,35 +26,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 include "inc/header.php"
 ?>
 
-<header>
-  <div class="container">
-    <div class="site-header">
-      <a class="logo" href="index.php"><i class="material-icons">library_books</i></a>
-      <a class="button icon-right" href="new.php"><span>New Entry</span> <i class="material-icons">add</i></a>
-    </div>
+  <div class="new-entry">
+    <h2>New Entry</h2>
+    <?php
+      if(isset($message)) {
+        echo "<p class='message'>$message</p>";
+      }
+    ?>
+    <form method="post">
+      <?php include "inc/journal_entry_form.php" ?>
+      <input type="submit" value="Publish Entry" class="button">
+      <a href="javascript:history.back()" class="button button-secondary">Cancel</a>
+    </form>
   </div>
-</header>
-<section>
-  <div class="container">
-    <div class="new-entry">
-      <h2>New Entry</h2>
-      <?php
-        if(isset($message)) {
-          echo "<p class='message'>$message</p>";
-        }
-      ?>
-      <form method="post">
-        <?php include "inc/journal_entry_form.php" ?>
-        <input type="submit" value="Publish Entry" class="button">
-        <a href="javascript:history.back()" class="button button-secondary">Cancel</a>
-      </form>
-    </div>
-  </div>
-</section>
-<footer>
-  <div>
-    &copy; MyJournal
-  </div>
-</footer>
 
 <?php include "inc/footer.php" ?>
