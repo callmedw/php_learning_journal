@@ -96,7 +96,7 @@ function delete_journal_entry($entry_id){
 //      tag CRUD      //
 ////////////////////////////
 
-// add entries tags //
+// add entry tags //
 function add_tags($tags) {
   include 'connection.php';
 
@@ -125,7 +125,7 @@ function add_tags($tags) {
   return true;
 }
 
-// return an entries tag ids //
+// return an entry's tag ids //
 function get_tag_ids($tags) {
   include 'connection.php';
 
@@ -151,9 +151,20 @@ function get_tag_ids($tags) {
   return $tag_ids;
 }
 
+// associate the tags with the entry
+// got the $sql from https://stackoverflow.com/questions/19337029/insert-if-not-exists-statement-in-sqlite
+// combined with the CRUD class.
 function populate_entry_tags_table($tag_array, $entry_id) {
   include 'connection.php';
-  $sql = "INSERT INTO entry_tags (entry_id, tag_id) VALUES (?, ?)";
+
+  $sql = "INSERT INTO entry_tags (entry_id, tag_id)
+          SELECT ?, ?
+          WHERE NOT EXISTS (
+            SELECT 1
+            FROM entry_tags
+            WHERE entry_id = ?
+            AND tag_id = ?
+          )";
 
   try {
     $db->beginTransaction();
@@ -161,6 +172,8 @@ function populate_entry_tags_table($tag_array, $entry_id) {
     foreach ($tag_array as $tag_id) {
       $results->bindValue(1, $entry_id, PDO::PARAM_INT);
       $results->bindValue(2, $tag_id['id'], PDO::PARAM_INT);
+      $results->bindValue(3, $entry_id, PDO::PARAM_INT);
+      $results->bindValue(4, $tag_id['id'], PDO::PARAM_INT);
       $results->execute();
     }
     $db->commit();
@@ -172,7 +185,7 @@ function populate_entry_tags_table($tag_array, $entry_id) {
   return true;
 }
 
-// get (read) single tag //
+// get (read) a single tag //
 function get_tag($tag_id) {
   include 'connection.php';
 
@@ -189,7 +202,7 @@ function get_tag($tag_id) {
   return $results->fetch();
 }
 
-// get (read) entry tags //
+// get (read) all entry tags //
 function get_tags_for_entry($entry_id) {
   include 'connection.php';
 
