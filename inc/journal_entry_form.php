@@ -4,7 +4,7 @@
 <input id="title" type="text" name="title" value="<?php if(!empty($title)) echo $title; ?>"><br>
 
 <label for="tags">Tags (seperated by commas)</label>
-<input id="tags" type="text" name="tags" value="<?php if(!empty($tags)) echo $tags; ?>"><br>
+<input id="tags" type="text" name="tags" value="<?php if(!empty($entry_tags)) echo $entry_tags; ?>"><br>
 
 <label for="date">Date</label>
 <input id="date" type="date" name="date" value="<?php if(!empty($date)) echo $date; ?>"><br>
