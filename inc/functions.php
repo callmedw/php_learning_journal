@@ -1,5 +1,4 @@
 <?php
-
 //      journal CRUD      //
 
 // add/update journal entry
@@ -31,16 +30,15 @@ function add_journal_entry($title, $date, $time_spent, $learned, $resources, $en
 }
 
 // get (read) all journal entries //
-
 function get_journal_entry_list() {
-    include 'connection.php';
+  include 'connection.php';
 
-    try {
-        return $db->query('SELECT * FROM entries ORDER BY date DESC');
-    } catch (Exception $e) {
-        echo "Error!: " . $e->getMessage() . "<br />";
-        return array();
-    }
+  try {
+    return $db->query('SELECT * FROM entries ORDER BY date DESC');
+  } catch (Exception $e) {
+    echo "Error!: " . $e->getMessage() . "<br />";
+    return array();
+  }
 }
 
 // get (read) journal entry //
