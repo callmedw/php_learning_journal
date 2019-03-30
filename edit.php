@@ -3,6 +3,8 @@ require_once 'inc/functions.php';
 
 if (isset($_GET['id'])) {
   list($entry_id, $title, $date, $time_spent, $learned, $resources) = get_journal_entry(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
+
+  $page_title = "Editing ... " .$title;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -27,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 }
 
-$page_title = "Editing ... " .$title;
+$entry_tags = form_display_entry_tags($entry_id);
 include "inc/header.php"
 ?>
 

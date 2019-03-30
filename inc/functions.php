@@ -4,7 +4,7 @@
 ////////////////////////////
 
 // add/update journal entry
-function add_journal_entry($title, $date, $time_spent, $learned, $resources, $tags, $entry_id = NULL){
+function add_journal_entry($title, $date, $time_spent, $learned, $resources, $tags, $entry_id = NULL) {
   include 'connection.php';
 
   if ($entry_id) {
@@ -29,15 +29,15 @@ function add_journal_entry($title, $date, $time_spent, $learned, $resources, $ta
     return false;
   }
   if ($db->lastInsertId()) {
-    try {
-      $entry_id = $db->lastInsertId();
-      add_tags($tags);
-      $tag_array = get_tag_ids($tags);
-      populate_entry_tags_table($tag_array, $entry_id);
-    } catch (Exception $e) {
-      echo $e->getMessage();
-      return false;
-    }
+    $entry_id = $db->lastInsertId();
+  }
+  try {
+    add_tags($tags);
+    $tag_array = get_tag_ids($tags);
+    populate_entry_tags_table($tag_array, $entry_id);
+  } catch (Exception $e) {
+    echo $e->getMessage();
+    return false;
   }
   return true;
 }
@@ -73,9 +73,6 @@ function get_journal_entry($entry_id){
 
 // delete journal entry //
 function delete_journal_entry($entry_id){
-  var_dump($entry_id);
-  echo "<h1> YOOOOOOOOOOO </h1>"; 
-  error_log(print_r($entry_id, TRUE));
   include 'connection.php';
 
   $sql = 'DELETE FROM entries WHERE id = ?';
@@ -102,17 +99,21 @@ function delete_journal_entry($entry_id){
 // add entries tags //
 function add_tags($tags) {
   include 'connection.php';
+
   $tag_array =  explode(',', $tags);
   $tag_ids = [];
   $sql = "INSERT INTO tags (name) VALUES (?)";
 
   try {
     $db->beginTransaction();
-    $results = $db->prepare($sql);
     foreach ($tag_array as $tag) {
+      $results = $db->prepare($sql);
       $results->bindValue(1, trim($tag), PDO::PARAM_STR);
-      if ($results->execute()) {
+      try {
+        $results->execute();
         $tag_ids[] = $db->lastInsertId();
+      } catch (Exception $e) {
+        echo $e->getMessage();
       }
     }
     $db->commit();
@@ -127,6 +128,7 @@ function add_tags($tags) {
 // return an entries tag ids //
 function get_tag_ids($tags) {
   include 'connection.php';
+
   $tag_array =  explode(',', $tags);
   $tag_ids = [];
   $sql = "SELECT id FROM tags WHERE name LIKE LOWER(?)";
@@ -226,4 +228,14 @@ function get_entries_for_tag($tag_id) {
     return false;
   }
   return $results;
+}
+
+// display tags as a string for the entry form //
+function form_display_entry_tags($entry_id) {
+  $tags = get_tags_for_entry($entry_id);
+  $entry_tags = " ";
+  foreach ($tags as $tag) {
+    $entry_tags.= $tag['name']. ", ";
+  }
+  return $entry_tags;
 }
