@@ -7,16 +7,16 @@
 
 To pass this code review the following criteria are required:
 
-- [ ] Contains the prepared statements required for adding and editing journal entries.
-- [ ] List page shows journal entries, sorted by date, with titles and date/time created.
-- [ ] Detail page shows Title, Date, Time Spent, What You Learned, Resources to Remember.
-- [ ] Add/Edit page enables the user to post new entries or edit existing entries with all of the following fields:
-  - [ ]  Title
-  - [ ]  Date
-  - [ ]  Time Spent
-  - [ ]  What You Learned
-  - [ ]  Resources to Remember
-- [ ] Ability to delete an entry.
+- [x] Contains the prepared statements required for adding and editing journal entries.
+- [x] List page shows journal entries, sorted by date, with titles and date/time created.
+- [x] Detail page shows Title, Date, Time Spent, What You Learned, Resources to Remember.
+- [x] Add/Edit page enables the user to post new entries or edit existing entries with all of the following fields:
+  - [x]  Title
+  - [x]  Date
+  - [x]  Time Spent
+  - [x]  What You Learned
+  - [x]  Resources to Remember
+- [x] Ability to delete an entry.
 - [ ] Each section of the journal entry uses the correct CSS from the supplied file: Entry itself, Title, Date, Time Spent, What You Learned, Resources to Remember.
 
 Additionally the app includes:
