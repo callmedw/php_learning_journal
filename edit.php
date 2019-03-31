@@ -7,6 +7,20 @@ if (isset($_GET['id'])) {
   $page_title = "Editing ... " .$title;
 }
 
+if (isset($_POST['remove_tag_tag_id']) && isset($_POST['remove_tag_entry_id'])) {
+  $tag_info = filter_input(INPUT_POST, 'remove_tag_tag_id', FILTER_SANITIZE_NUMBER_INT);
+  $entry_info = filter_input(INPUT_POST, 'remove_tag_entry_id', FILTER_SANITIZE_NUMBER_INT);
+  if (delete_tag($entry_info, $tag_info)) {
+    $message = "Tag Removed!";
+    header("Refresh:0");
+    exit;
+  } else {
+    $message = "Tag could not be deleted!";
+    header("Refresh:0");
+    exit;
+  }
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $entry_id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
   $title = trim(filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING));
@@ -40,9 +54,11 @@ include "inc/header.php"
         echo "<p class='message'>$message</p>";
       }
     ?>
-    <form method="post" action="edit.php?id=<?php echo $entry_id; ?>">
+    <form id="update-entry" method="post" action="edit.php?id=<?php echo $entry_id; ?>"></form>
+    <form id="remove-tag" method='post' onsubmit=\"return confirm('Are you sure?');\"></form>
+    <form>
       <?php include "inc/journal_entry_form.php" ?>
-      <input type="submit" value="Publish Entry" class="button">
+      <input form="update-entry" type="submit" value="Publish Entry" class="button">
       <a href="javascript:history.back()" class="button button-secondary">Cancel</a>
     </form>
   </div>

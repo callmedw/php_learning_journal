@@ -1,3 +1,54 @@
+
+<label for="tags">Tags (seperated by commas)</label>
+<input id="tags" type="text" name="tags" value="<?php if(!empty($entry_tags)) echo $entry_tags; ?>"><br>
+
+<label for="title">Title</label>
+<input id="title" type="text" name="title" value="<?php if(!empty($title)) echo $title; ?>"><br>
+
+<label for="tags">Tags (seperated by commas)</label>
+<input id="tags" type="text" name="tags" value="<?php if(!empty($entry_tags)) echo $entry_tags; ?>"><br>
+
+
+<label for="date">Date</label>
+<input id="date" type="date" name="date" value="<?php if(!empty($date)) echo $date; ?>"><br>
+
+<label for="time-spent">Time Spent</label>
+<input id="time-spent" type="text" name="time-spent" value="<?php if(!empty($time_spent)) echo $time_spent; ?>"><br>
+
+<label for="learned">What I Learned</label>
+<textarea id="learned" rows="5" name="learned"><?php if(!empty($learned)) echo $learned; ?></textarea>
+
+<label for="resources">Resources to Remember</label>
+<textarea id="resources" rows="5" name="resources"><?php if(!empty($resources)) echo $resources; ?></textarea>
+
+<?php
+  if (!empty($entry_id)) {
+    echo "<input type='hidden' name='id' value='$entry_id' />";
+  }
+?>
+
+// edit pages
+$entry_tags = form_display_entry_tags($entry_id);
+include "inc/header.php"
+?>
+
+  <div class="edit-entry">
+    <h2>Edit Entry</h2>
+    <?php
+      if(isset($message)) {
+        echo "<p class='message'>$message</p>";
+      }
+    ?>
+    <form method="post" action="edit.php?id=<?php echo $entry_id; ?>">
+      <?php include "inc/journal_entry_form.php" ?>
+      <input type="submit" value="Publish Entry" class="button">
+      <a href="javascript:history.back()" class="button button-secondary">Cancel</a>
+    </form>
+  </div>
+
+<?php include "inc/footer.php" ?>
+
+
 // add/update journal entry
 function add_journal_entry($title, $date, $time_spent, $learned, $resources, $tags, $entry_id = NULL) {
   include 'connection.php';
