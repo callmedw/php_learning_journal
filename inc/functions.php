@@ -253,11 +253,9 @@ function form_display_entry_tags($entry_id) {
   foreach ($tags as $tag) {
     $tag_id = $tag['id'];
     $tag_name = $tag['name'];
-    // $entry_tags.= $tag['name'];
     $entry_tags.=  "<input form='remove-tag' type='submit' value='$tag_name:$tag_id X' />";
     $entry_tags.=  "<input form='remove-tag' type='hidden' value='$entry_id' name='remove_tag_entry_id' />";
     $entry_tags.=  "<input form='remove-tag' type='hidden' value='$tag_id' name='remove_tag_tag_id' />";
-    // $entry_tags.=  "<input form='remove-tag' type='submit' value='$tag_name:$tag_id X' />";
     $entry_tags.= " ";
   }
   return $entry_tags;
@@ -297,35 +295,3 @@ function get_tag_list() {
     return array();
   }
 }
-
-
-// // works //
-// function delete_tag($entry_id, $tag_id){
-//   include 'connection.php';
-//
-//   $sql = 'DELETE FROM entry_tags WHERE entry_id = ? AND $tag_id = ?';
-//
-//   try {
-//     $results = $db->prepare($sql);
-//     $results->bindValue(1, $entry_id, PDO::PARAM_INT);
-//     $results->bindValue(2, $tag_id, PDO::PARAM_INT);
-//     $results->execute();
-//   } catch (Exception $e) {
-//     echo $e->getMessage();
-//     return false;
-//   }
-//   if ($results->rowCount() > 0 ) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
-
-// function form_display_entry_tags($entry_id) {
-//   $tags = get_tags_for_entry($entry_id);
-//   $entry_tags = " ";
-//   foreach ($tags as $tag) {
-//     $entry_tags.= $tag['name']. ", ";
-//   }
-//   return $entry_tags;
-// }
