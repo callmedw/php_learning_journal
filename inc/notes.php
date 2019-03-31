@@ -1,3 +1,49 @@
+// add/update journal entry
+function add_journal_entry($title, $date, $time_spent, $learned, $resources, $tags, $entry_id = NULL) {
+  include 'connection.php';
+
+  if ($entry_id) {
+    $sql =  'UPDATE entries SET title = ?, date = ?, time_spent = ?, learned = ?, resources = ? WHERE id = ?';
+  } else {
+    $sql = 'INSERT INTO entries(title, date, time_spent, learned, resources) VALUES(?, ?, ?, ?, ?)';
+  }
+
+  try {
+    $results = $db->prepare($sql);
+    $results->bindValue(1, $title, PDO::PARAM_STR);
+    $results->bindValue(2, $date, PDO::PARAM_STR);
+    $results->bindValue(3, $time_spent, PDO::PARAM_STR);
+    $results->bindValue(4, $learned, PDO::PARAM_STR);
+    $results->bindValue(5, $resources, PDO::PARAM_STR);
+    if ($entry_id) {
+      $results->bindValue(6, $entry_id, PDO::PARAM_INT);
+    }
+    $results->execute();
+  } catch (Exception $e) {
+    echo $e->getMessage();
+    return false;
+  }
+  if ($db->lastInsertId()) {
+    $entry_id = $db->lastInsertId();
+  }
+  manage_tags($entry_id, $tags);
+  return true;
+}
+
+function manage_tags($entry_id, $tags) {
+  $entry_tags = get_tags_for_entry($entry_id);
+
+  try {
+    add_tags($tags);
+    $tag_array = get_tag_ids($tags);
+    populate_entry_tags_table($tag_array, $entry_id);
+  } catch (Exception $e) {
+    echo $e->getMessage();
+    return false;
+  }
+  return true;
+}
+
 // insert the journal entry.
 // on success of journal entry I want to grab the id.
 // then i want to check distinct of tag...if new insert tag and grab id.

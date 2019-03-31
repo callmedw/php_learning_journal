@@ -252,3 +252,25 @@ function form_display_entry_tags($entry_id) {
   }
   return $entry_tags;
 }
+
+// remove tag from journal entry //
+function delete_tag($entry_id, $tag_id){
+  include 'connection.php';
+
+  $sql = 'DELETE FROM entry_tags WHERE entry_id = ? AND $tag_id = ?';
+
+  try {
+    $results = $db->prepare($sql);
+    $results->bindValue(1, $entry_id, PDO::PARAM_INT);
+    $results->bindValue(2, $tag_id, PDO::PARAM_INT);
+    $results->execute();
+  } catch (Exception $e) {
+    echo $e->getMessage();
+    return false;
+  }
+  if ($results->rowCount() > 0 ) {
+    return true;
+  } else {
+    return false;
+  }
+}
