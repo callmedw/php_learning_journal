@@ -252,10 +252,12 @@ function form_display_entry_tags($entry_id) {
   $entry_tags = " ";
   foreach ($tags as $tag) {
     $tag_id = $tag['id'];
-    $entry_tags.= $tag['name'];
+    $tag_name = $tag['name'];
+    // $entry_tags.= $tag['name'];
+    $entry_tags.=  "<input form='remove-tag' type='submit' value='$tag_name:$tag_id X' />";
     $entry_tags.=  "<input form='remove-tag' type='hidden' value='$entry_id' name='remove_tag_entry_id' />";
     $entry_tags.=  "<input form='remove-tag' type='hidden' value='$tag_id' name='remove_tag_tag_id' />";
-    $entry_tags.=  "<input form='remove-tag' type='submit' value='x' />";
+    // $entry_tags.=  "<input form='remove-tag' type='submit' value='$tag_name:$tag_id X' />";
     $entry_tags.= " ";
   }
   return $entry_tags;
@@ -263,14 +265,15 @@ function form_display_entry_tags($entry_id) {
 
 // remove tag from journal entry //
 function delete_tag($entry_id, $tag_id) {
-  error_log(print_r($entry_id, TRUE));
-  error_log(print_r($tag_id, TRUE));
+  error_log(print_r($entry_id, true));
+  error_log(print_r($tag_id, true));
   include 'connection.php';
-  $sql = 'DELETE FROM entry_tags WHERE entry_id = ? AND $tag_id = ?';
+
+  $sql = 'DELETE FROM entry_tags WHERE ( tag_id = ? AND entry_id = ? )';
   try {
     $results = $db->prepare($sql);
-    $results->bindValue(1, $entry_id, PDO::PARAM_INT);
-    $results->bindValue(2, $tag_id, PDO::PARAM_INT);
+    $results->bindValue(1, $tag_id, PDO::PARAM_INT);
+    $results->bindValue(2, $entry_id, PDO::PARAM_INT);
     $results->execute();
   } catch (Exception $e) {
     echo $e->getMessage();
