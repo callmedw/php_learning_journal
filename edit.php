@@ -54,11 +54,11 @@ include "inc/header.php"
         echo "<p class='message'>$message</p>";
       }
     ?>
-    <form id="update-entry" method="post" action="edit.php?id=<?php echo $entry_id; ?>"></form>
-    <form id="remove-tag" method='post' onsubmit="return confirm('Are you sure?')"></form>
+    <form id="entry-form" method="post" action="edit.php?id=<?php echo $entry_id; ?>"></form>
+    <form id="remove-tag" method='post' onsubmit="return confirm('Are you sure?');"></form>
     <form>
       <?php include "inc/journal_entry_form.php" ?>
-      <input form="update-entry" type="submit" value="Publish Entry" class="button">
+      <input form="entry-form" type="submit" value="Publish Entry" class="button">
       <a href="javascript:history.back()" class="button button-secondary">Cancel</a>
     </form>
   </div>

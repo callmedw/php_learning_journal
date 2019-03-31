@@ -31,15 +31,17 @@ function add_journal_entry($title, $date, $time_spent, $learned, $resources, $ta
   if ($db->lastInsertId()) {
     $entry_id = $db->lastInsertId();
   }
-  try {
-    add_tags($tags);
-    $tag_array = get_tag_ids($tags);
-    populate_entry_tags_table($tag_array, $entry_id);
-  } catch (Exception $e) {
-    echo $e->getMessage();
-    return false;
+  if (!empty($tags)) {
+    try {
+      add_tags($tags);
+      $tag_array = get_tag_ids($tags);
+      populate_entry_tags_table($tag_array, $entry_id);
+    } catch (Exception $e) {
+      echo $e->getMessage();
+      return false;
+    }
+    return true;
   }
-  return true;
 }
 
 // get (read) all journal entries //
@@ -243,7 +245,8 @@ function get_entries_for_tag($tag_id) {
   return $results;
 }
 
-// display tags as a string for the entry form //
+// display tags as a string for the entry update form  //
+// this includes delete buttons to delete individual tags
 function form_display_entry_tags($entry_id) {
   $tags = get_tags_for_entry($entry_id);
   $entry_tags = " ";
@@ -260,11 +263,10 @@ function form_display_entry_tags($entry_id) {
 
 // remove tag from journal entry //
 function delete_tag($entry_id, $tag_id) {
-
+  error_log(print_r($entry_id, TRUE));
+  error_log(print_r($tag_id, TRUE));
   include 'connection.php';
-
   $sql = 'DELETE FROM entry_tags WHERE entry_id = ? AND $tag_id = ?';
-
   try {
     $results = $db->prepare($sql);
     $results->bindValue(1, $entry_id, PDO::PARAM_INT);
