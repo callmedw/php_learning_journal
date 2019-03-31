@@ -10,6 +10,17 @@ $page_title = $tag_name;
 include "inc/header.php";
 ?>
 
+  <div class="tags-list">
+    <h3 class="tag-list-header"> more tags </h3>
+      <div class="tag-links">
+      <?php
+        foreach (get_tag_list() as $tag) {
+          echo " <a href='tag.php?id=" .$tag['id']. "'>" .$tag['name']. "</a> ";
+        }
+      ?>
+    </div>
+  </div>
+
   <div class="entry-list">
     <h1 class="tag-header"> All entries tagged "<?php echo $tag_name; ?>" </h1>
 

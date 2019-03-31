@@ -281,8 +281,17 @@ function delete_tag($entry_id, $tag_id) {
   }
 }
 
+// get all tags //
+function get_tag_list() {
+  include 'connection.php';
 
-
+  try {
+    return $db->query('SELECT * FROM tags');
+  } catch (Exception $e) {
+    echo $e->getMessage();
+    return array();
+  }
+}
 
 
 // // works //
